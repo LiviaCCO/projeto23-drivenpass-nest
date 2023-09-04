@@ -13,8 +13,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    // verifica se id é válido
     return this.usersService.findOne(+id);
   }
-
+ 
 }

@@ -20,7 +20,7 @@ export class CredentialsController {
     }
     return this.credentialsService.create(createCredentialDto);
   }
-
+ 
   @Get()
   findAll() {
     const userId=1;

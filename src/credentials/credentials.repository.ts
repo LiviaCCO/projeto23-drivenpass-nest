@@ -5,17 +5,15 @@ import { CreateCredentialDto } from './dto/create-credential.dto';
 
 @Injectable()
 export class CredentialsRepository {
-
+ 
   constructor(private readonly prisma: PrismaService) { }
 
-  async findByTitleNameLabel(userId: number, title: string, name: string, label: string) {
+  async findByTitleNameLabel(userId: number, title: string) {
     
     return await this.prisma.credentials.findOne({
       where: {
         userId,
         title,
-        name,
-        label,
       }
   })
   }

@@ -17,4 +17,4 @@ export class UsersRepository {
       data: createUserDto
     })
   }
-}
+} 

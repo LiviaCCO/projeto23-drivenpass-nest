@@ -19,7 +19,7 @@ export class UsersService {
         'A senha não atende aos critérios de segurança',
         HttpStatus.BAD_REQUEST,
       )
-    }
+    } 
     return this.repository.create(createUserDto);
   }
 
@@ -28,7 +28,6 @@ export class UsersService {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
     return passwordRegex.test(password);
   }
-
   //O usuário deverá utilizar o e-mail e senha cadastrados. 
   //Caso ele forneça dados incompatíveis, a aplicação deverá avisá-lo (401 Unauthorized). 
   //Ao finalizar o login, ele deverá receber um token baseado na estratégia JWT
