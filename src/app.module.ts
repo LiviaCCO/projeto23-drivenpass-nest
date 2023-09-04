@@ -8,9 +8,10 @@ import { NotesModule } from './notes/notes.module';
 import { CardsModule } from './cards/cards.module';
 import { EraseModule } from './erase/erase.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [HealthModule, UsersModule, CredentialsModule, NotesModule, CardsModule, EraseModule, PrismaModule],
+  imports: [HealthModule, UsersModule, CredentialsModule, NotesModule, CardsModule, EraseModule, PrismaModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

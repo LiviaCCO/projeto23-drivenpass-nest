@@ -1,12 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { CredentialsService } from './credentials.service';
 import { CreateCredentialDto } from './dto/create-credential.dto';
 import { validate } from 'class-validator';
+import { AuthGuard } from 'src/guard/auth.guard';
+import { User } from 'src/decorators/user.decorator';
 
 @Controller('credentials')
 export class CredentialsController {
   constructor(private readonly credentialsService: CredentialsService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createCredentialDto: CreateCredentialDto) {
     const error = await validate(createCredentialDto);
@@ -20,22 +23,25 @@ export class CredentialsController {
     }
     return this.credentialsService.create(createCredentialDto);
   }
- 
+
+  @UseGuards(AuthGuard)
   @Get()
-  findAll() {
-    const userId=1;
+  findAll(@User() user) {
+    const userId=user;
     return this.credentialsService.findAll(userId);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    const userId=1;
+  findOne(@User() user, @Param('id') id: string) {
+    const userId=user;
     return this.credentialsService.findOne(+id, userId);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    const userId=1;
+  remove(@User() user, @Param('id') id: string) {
+    const userId=user;
     return this.credentialsService.remove(+id, userId);
   }
 }

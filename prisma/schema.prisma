@@ -12,44 +12,40 @@ datasource db {
 
 //criar os modelos/tabelas
 
-model User{
-  id        Int   @id @default(aultoIncrement())
-  email     String
+model User {
+  id        Int     @id @default(aultoIncrement())
+  email     String  @unique
   password  String
 
-  @@unique([email])
   @@maps('users')
 }
 
-model Credential{
+model Credential {
   id        Int   @id @default(aultoIncrement())
   userName  String
   user      User  @relation(fields: [userId], references:[id])
   userId    Int
   url       String
   password  String
-  title     String
+  title     String  @unique
   name      String
   label     String
   
-  @@unique([title, name, label])
   @@maps('credentials')
 }
 
-model Note{
+model Note {
   id        Int   @id @default(aultoIncrement())
   user      User  @relation(fields: [userId], references:[id])
   userId    Int
   title     String
-  name      String
-  label     String
   note      String  
 
-  @@unique([title, name, label, note])
+  @@unique([title, note])
   @@maps('notes')
 }
 
-model Card{
+model Card {
   id        Int   @id @default(aultoIncrement())
   user      User  @relation(fields: [userId], references:[id])
   userId    Int
@@ -58,12 +54,9 @@ model Card{
   numSeg    Int
   dateCard  Int  
   password  String
-  isVirtual Boolean                   //true or false
-  type      Enum('credit', 'debit', 'credit and debit')   //credit or debt
-  title     String
-  name      String
-  label     String
+  isVirtual Boolean                   
+  type      Enum('credit', 'debit', 'credit and debit')  
+  title     String    @unique
 
-  @@unique([title, name, label, note])
   @@maps('cards')
 }

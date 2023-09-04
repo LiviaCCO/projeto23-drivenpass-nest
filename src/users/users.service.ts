@@ -31,6 +31,9 @@ export class UsersService {
   //O usuário deverá utilizar o e-mail e senha cadastrados. 
   //Caso ele forneça dados incompatíveis, a aplicação deverá avisá-lo (401 Unauthorized). 
   //Ao finalizar o login, ele deverá receber um token baseado na estratégia JWT
+  findUserById(arg0: number) {
+    throw new Error("Method not implemented.");
+}
   async findOne(id: number) {
     return `This action returns a #${id} user`;
   }
