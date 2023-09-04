@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { CredentialsService } from './credentials.service';
 import { CreateCredentialDto } from './dto/create-credential.dto';
-import { UpdateCredentialDto } from './dto/update-credential.dto';
+import { validate } from 'class-validator';
 
 @Controller('credentials')
 export class CredentialsController {
   constructor(private readonly credentialsService: CredentialsService) {}
 
   @Post()
-  create(@Body() createCredentialDto: CreateCredentialDto) {
+  async create(@Body() createCredentialDto: CreateCredentialDto) {
+    const error = await validate(createCredentialDto);
+
+    if (error.length > 0) {
+      // Se houver erros de validação: (Bad Request)
+      throw new HttpException(
+        { message: 'validation error', error },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return this.credentialsService.create(createCredentialDto);
   }
 
   @Get()
   findAll() {
-    return this.credentialsService.findAll();
+    const userId=1;
+    return this.credentialsService.findAll(userId);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.credentialsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCredentialDto: UpdateCredentialDto) {
-    return this.credentialsService.update(+id, updateCredentialDto);
+    const userId=1;
+    return this.credentialsService.findOne(+id, userId);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.credentialsService.remove(+id);
+    const userId=1;
+    return this.credentialsService.remove(+id, userId);
   }
 }

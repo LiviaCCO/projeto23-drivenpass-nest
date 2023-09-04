@@ -36,7 +36,7 @@ model Credential{
   @@maps('credentials')
 }
 
-mçodel Note{
+model Note{
   id        Int   @id @default(aultoIncrement())
   user      User  @relation(fields: [userId], references:[id])
   userId    Int
