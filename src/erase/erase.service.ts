@@ -1,26 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { CreateEraseDto } from './dto/create-erase.dto';
-import { UpdateEraseDto } from './dto/update-erase.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { EraseRepository } from './erase.repository';
+import { CardsRepository } from 'src/cards/cards.repository';
+import { NotesRepository } from 'src/notes/notes.repository';
+import { CredentialsRepository } from 'src/credentials/credentials.repository';
 
 @Injectable()
 export class EraseService {
-  create(createEraseDto: CreateEraseDto) {
-    return 'This action adds a new erase';
-  }
-
-  findAll() {
-    return `This action returns all erase`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} erase`;
-  }
-
-  update(id: number, updateEraseDto: UpdateEraseDto) {
-    return `This action updates a #${id} erase`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} erase`;
+  constructor(private readonly repository: EraseRepository) {}
+  
+  async remove(userId: number, password: string) {
+    const passwordValid = await this.repository.verifyPassword(userId, password);
+    if (!passwordValid) {
+      throw new HttpException('Senha incorreta', HttpStatus.UNAUTHORIZED);
+    }
+    await this.repository.deleteCards(userId);
+    await this.repository.deleteNotes(userId);
+    await this.repository.deleteCrendentials(userId);
+    return await this.repository.deleteUser(userId);
   }
 }

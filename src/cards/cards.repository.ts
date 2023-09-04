@@ -12,7 +12,6 @@ export class CardsRepository {
       data: CreateCardDto
     })
   }
-
   async findAllByUserId(userId: number) {
     return await this.prisma.cards.find({
       where: {
@@ -20,7 +19,6 @@ export class CardsRepository {
       },
     });
   }
-
   async findByTitle(userId: number, cardNum: number) {
     return await this.prisma.cards.findOne({
       where: {
@@ -29,7 +27,6 @@ export class CardsRepository {
       }
   })
   }
-  
   async findOneByIdAndUserId(userId: number, id: number) {
     return await this.prisma.cards.findOne({
       where: {
@@ -45,7 +42,6 @@ export class CardsRepository {
       }
   })
   }
-
   async remove(id: number) {
     return await this.prisma.cards.delete({
       where: {

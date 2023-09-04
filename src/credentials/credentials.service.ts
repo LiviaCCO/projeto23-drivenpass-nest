@@ -10,13 +10,13 @@ export class CredentialsService {
   constructor(private readonly repository: CredentialsRepository) { }
  
   async create(createCredentialDto: CreateCredentialDto) {
-    const {userId, url, userName, password, title, name, label} = createCredentialDto;
+    const {userId, url, userName, password, title} = createCredentialDto;
     
     if (!url || !userName || !password) {
       throw new HttpException('All fields are required', HttpStatus.BAD_REQUEST);
     }
     //pegar o userId
-    const existCredential = await this.repository.findByTitleNameLabel(userId, title, name, label);
+    const existCredential = await this.repository.findByTitleNameLabel(userId, title);
     if (existCredential) throw new HttpException("Credential already exists", HttpStatus.CONFLICT);
      //para criptografar senha
     const cryptPassword = this.cryptr.encrypt(password);
@@ -26,8 +26,6 @@ export class CredentialsService {
       userName,
       password: cryptPassword, 
       title,
-      name,
-      label,
     });
     return this.repository.create(newCredential);
   }

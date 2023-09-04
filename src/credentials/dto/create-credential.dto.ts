@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateCredentialDto {
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   userId: number;
 
@@ -20,12 +20,4 @@ export class CreateCredentialDto {
   @IsString()
   @IsNotEmpty()
   title: string;
-
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  label: string;
 }
